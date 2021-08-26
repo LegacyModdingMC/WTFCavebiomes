@@ -3,6 +3,7 @@ package cavebiomes.worldgeneration;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import cavebiomes.WTFCaveBiomesConfig;
 import cavebiomes.api.CaveType;
 import cavebiomes.utilities.gencores.GenCoreProvider;
@@ -12,6 +13,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import wtfcore.api.BlockSets;
 import wtfcore.utilities.CavePosition;
+import wtfcore.utilities.SurfacePos;
 import wtfcore.worldgen.OverworldScanner;
 import wtfcore.worldgen.WorldGenListener;
 
@@ -22,9 +24,11 @@ public class CaveBiomesChunkScanner extends OverworldScanner{
 	@Override
 	public void generate(World world, Random rand, int chunkX, int chunkZ)
 	{		
+		ThreadLocalRandom localRand = ThreadLocalRandom.current();
 		
 		ArrayList<CavePosition> cavepositions = new ArrayList<CavePosition>();
 		ArrayList<CavePosition> dungeonposition = new ArrayList<CavePosition>();
+		ArrayList<SurfacePos> surfacepositions = new ArrayList();
 
 		Chunk chunk = world.getChunkFromBlockCoords(chunkX, chunkZ);
 
@@ -40,6 +44,7 @@ public class CaveBiomesChunkScanner extends OverworldScanner{
 
 				int z = chunkZ + zloop;	
 				int y = scanForSurface(chunk, x, lastY, z);
+				surfacepositions.add(new SurfacePos(x, y, z));
 				lastY = y;
 				surfaceaverage += y;
 
@@ -79,7 +84,7 @@ public class CaveBiomesChunkScanner extends OverworldScanner{
 
 		//Additional Generators called herer- such as WTFOres
 		if (WorldGenListener.generator != null){
-			WorldGenListener.generator.generate(world, surfaceaverage, chunkX, chunkZ, rand, cavepositions);
+			WorldGenListener.generator.generate(world, surfaceaverage, chunkX, chunkZ, localRand, cavepositions);
 		}
 
 		int deepmax = surfaceaverage/3;
@@ -99,18 +104,18 @@ public class CaveBiomesChunkScanner extends OverworldScanner{
 				position = dungeoniterator.next();
 				if (position.floor < surfaceaverage-5){
 					if (position.floor < deepmax){
-						if (rand.nextInt(deeptype.DungeonWeight) == 1){
-							CaveGen.generateDungeon(deeptype, world, rand, position.x, position.z, position.ceiling, position.floor);
+						if (localRand.nextInt(deeptype.DungeonWeight) == 1){
+							CaveGen.generateDungeon(deeptype, world, localRand, position.x, position.z, position.ceiling, position.floor);
 						}
 					}
 					else if (position.floor < midmax ){
-						if (rand.nextInt(midtype.DungeonWeight) == 1){
-							CaveGen.generateDungeon(midtype, world, rand, position.x, position.z, position.ceiling, position.floor);
+						if (localRand.nextInt(midtype.DungeonWeight) == 1){
+							CaveGen.generateDungeon(midtype, world, localRand, position.x, position.z, position.ceiling, position.floor);
 						}
 					}
 					else {
-						if (rand.nextInt(shallowtype.DungeonWeight) == 1){
-							CaveGen.generateDungeon(shallowtype, world, rand, position.x,  position.z, position.ceiling, position.floor);
+						if (localRand.nextInt(shallowtype.DungeonWeight) == 1){
+							CaveGen.generateDungeon(shallowtype, world, localRand, position.x,  position.z, position.ceiling, position.floor);
 						}
 					}
 				}
@@ -124,14 +129,18 @@ public class CaveBiomesChunkScanner extends OverworldScanner{
 
 			if (position.floor < deepmax){
 
-				CaveGen.generateCaveType(deeptype, world, rand, position.x, position.floor, position.ceiling, position.z);
+				CaveGen.generateCaveType(deeptype, world, localRand, position.x, position.floor, position.ceiling, position.z);
 			}
 			else if (position.floor < midmax){
-				CaveGen.generateCaveType(midtype, world, rand, position.x, position.floor, position.ceiling, position.z);
+				CaveGen.generateCaveType(midtype, world, localRand, position.x, position.floor, position.ceiling, position.z);
 			}
 			else {
-				CaveGen.generateCaveType(shallowtype, world, rand, position.x, position.floor, position.ceiling, position.z);
+				CaveGen.generateCaveType(shallowtype, world, localRand, position.x, position.floor, position.ceiling, position.z);
 			}
+		}
+
+		if (WorldGenListener.treehandler != null) {
+			WorldGenListener.treehandler.generateTrees(world, surfacepositions, chunkX, chunkZ);
 		}
 
 	}

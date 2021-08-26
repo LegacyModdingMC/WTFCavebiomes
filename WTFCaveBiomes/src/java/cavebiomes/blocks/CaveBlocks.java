@@ -73,19 +73,19 @@ public class CaveBlocks
 		String[] frozenfencenames= {"Fence"};
 		frozenFence = new FrozenBlock(Blocks.ice, Blocks.fence, frozenfencenames, TextureGeneratorLib.overlayDomain).setBlockName("frozen_fence");
 		GameRegistry.registerBlock(frozenFence, "frozen_fence");
-		BlockSets.genReplace.put(Blocks.fence, new FrozenFenceReplacer());
+		new FrozenFenceReplacer(Blocks.fence);
 		
 		if (Loader.isModLoaded(WTFCore.WTFTweaks)){
 			String[] frozentorchname= {"torch"};
 			frozenTorch = new FrozenBlock(Blocks.ice, WTFBlocks.finitetorch_unlit, frozentorchname, TextureGeneratorLib.overlayDomain).setBlockName("frozen_torch");
 			GameRegistry.registerBlock(frozenTorch, "frozen_torch");
-			BlockSets.genReplace.put(Blocks.torch, new FrozenTorchReplacer());
+			new FrozenTorchReplacer(Blocks.torch);
 		}
 		
 		String[] frozenrailnames= {"Rail"};
 		frozenRail = new FrozenBlock(IcePatch, Blocks.rail, frozenrailnames, TextureGeneratorLib.overlayDomain).setBlockName("frozen_rail");
 		GameRegistry.registerBlock(frozenRail, "frozen_rail");
-		BlockSets.genReplace.put(Blocks.rail, new FrozenFenceReplacer());
+		new FrozenFenceReplacer(Blocks.rail);
 		
 		RedstoneSpeleothem.registerSpeleothemSet(Blocks.redstone_ore, "redstone_block", vanillaRedstone, "minecraft");
 		RedstoneSpeleothem.registerSpeleothemSet(Blocks.lit_redstone_ore, "redstone_block", vanillaRedstone, "minecraft");

@@ -8,9 +8,11 @@ import wtfcore.api.Replacer;
 import wtfcore.utilities.UBCblocks;
 
 public class UBCSandReplacer extends Replacer{
-	public UBCSandReplacer(){
+
+	public UBCSandReplacer(Block block) {
+		super(block);
 	}
-	
+
 	@Override
 	public void doReplace(Chunk chunk, int x, int y, int z, Block oldBlock){
 		BlockInfo ubcblock = getUBCStone(chunk.worldObj,x,y,z);

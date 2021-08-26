@@ -7,7 +7,12 @@ import wtfcore.api.BlockInfo;
 import wtfcore.api.Replacer;
 import wtfcore.utilities.UBCblocks;
 
-public class UBCSandstoneReplacer extends Replacer{
+public class UBCSandstoneReplacer extends Replacer {
+
+	public UBCSandstoneReplacer(Block block) {
+		super(block);
+	}
+
 	@Override
 	public void doReplace(Chunk chunk, int x, int y, int z, Block oldBlock){
 		BlockInfo ubcblock = getUBCStone(chunk.worldObj,x,y,z);

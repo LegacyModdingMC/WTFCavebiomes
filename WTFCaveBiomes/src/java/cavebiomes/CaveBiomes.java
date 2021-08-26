@@ -32,7 +32,7 @@ import wtfcore.worldgen.WorldGenListener;
 
 
 
-@Mod(modid = CaveBiomes.modid, name = "WhiskyTangoFox's Cave Biomes", version = "1.54", dependencies = "after:UndergroundBiomes;required-after:WTFCore@[1.64,);required-after:TextureGeneratorLib")
+@Mod(modid = CaveBiomes.modid, name = "WhiskyTangoFox's Cave Biomes", version = "1.6", dependencies = "after:UndergroundBiomes;required-after:WTFCore@[1.7,);required-after:TextureGeneratorLib")
 
 
 public class CaveBiomes {

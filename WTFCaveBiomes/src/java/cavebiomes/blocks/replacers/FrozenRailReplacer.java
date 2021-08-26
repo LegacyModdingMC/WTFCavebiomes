@@ -9,6 +9,10 @@ import wtfcore.api.Replacer;
 
 public class FrozenRailReplacer extends Replacer{
 
+	public FrozenRailReplacer(Block block) {
+		super(block);
+	}
+
 	@Override
 	public void doReplace(Chunk chunk, int x, int y, int z, Block oldBlock) {
 		if (y < 58 && BiomeDictionary.isBiomeOfType(chunk.worldObj.getBiomeGenForCoords(x, z), Type.SNOWY)){

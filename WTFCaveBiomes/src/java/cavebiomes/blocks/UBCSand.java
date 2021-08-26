@@ -55,8 +55,8 @@ public class UBCSand extends BlockGravel{
 			sedimentarySand =  new UBCSand().setBlockName("sedimentarySand");
 			GameRegistry.registerBlock(sedimentarySand, ItemMetadataSubblock.class, "sedimentarySand");
 			if (WTFCaveBiomesConfig.ReplaceVanillaSand){
-				BlockSets.genReplace.put(Blocks.sand, new UBCSandReplacer());
-				BlockSets.genReplace.put(Blocks.sandstone, new UBCSandstoneReplacer());
+				new UBCSandReplacer(Blocks.sand);
+	            new UBCSandstoneReplacer(Blocks.sandstone);
 			}
 			
 			BlockSets.blockTransformer.put(new BlockInfo(UBCblocks.SedimentaryStone, 0, BlockSets.Modifier.cobblestone), UBCSand.sedimentarySand);

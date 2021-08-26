@@ -8,7 +8,12 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 import wtfcore.api.Replacer;
 import wtftweaks.WTFBlocks;
 
-public class FrozenTorchReplacer extends Replacer{
+public class FrozenTorchReplacer extends Replacer {
+
+	public FrozenTorchReplacer(Block block) {
+		super(block);
+	}
+	
 	@Override
 	public void doReplace(Chunk chunk, int x, int y, int z, Block oldBlock) {
 		if (y < 58){
