@@ -126,7 +126,7 @@ public class CaveTypeRegister {
 		else if (biomeandheight.depth == BiomeAndHeight.MID){
 			//int depth = 2;
 			cavetypetoset = normalMid;
-			if (BiomeDictionary.isBiomeOfType(biomeandheight.biome, Type.OCEAN)){cavetypetoset = iceMid;}
+			if (BiomeDictionary.isBiomeOfType(biomeandheight.biome, Type.OCEAN)){cavetypetoset = wetMid;}
 			else if (BiomeDictionary.isBiomeOfType(biomeandheight.biome, Type.SNOWY)){cavetypetoset = iceMid;}
 			else if (BiomeDictionary.isBiomeOfType(biomeandheight.biome, Type.SANDY)){cavetypetoset = desertMid;}
 			//
