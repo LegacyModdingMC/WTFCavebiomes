@@ -86,14 +86,14 @@ public class CinderShroom extends BlockBush{
 			}
 
 			//Try to spread
-			if (rand.nextInt(100) == 0)
+			if (WTFCaveBiomesConfig.cindershroomSpread && rand.nextInt(100) == 0)
 			{
-				System.out.println("try to grow");
+//				System.out.println("try to grow");
 				ArrayList arraylist = new ArrayList();
-				for (int xloop = -4; xloop < 5; xloop++){
-					for (int zloop = -4; zloop < 5; zloop++){
-						for (int yloop = 3; yloop > -3 || world.isAirBlock(xloop, y+yloop, z); yloop--){
-							if (world.getBlock(x+xloop, y+yloop+1, z+zloop) == Blocks.lava){
+				for (int xloop = -4; xloop <= 4; xloop++){
+					for (int zloop = -4; zloop <= 4; zloop++){
+						for (int yloop = 3; yloop >= -2; yloop--){// || world.isAirBlock(xloop, y+yloop, z); yloop--){
+							if (world.getBlock(x+xloop, y+yloop-1, z+zloop) == Blocks.lava && world.isAirBlock(x+xloop, y+yloop, z+zloop)){
 								arraylist.add(new ChunkPosition(x+xloop, y+yloop, z+zloop));
 							}
 						}
@@ -102,7 +102,7 @@ public class CinderShroom extends BlockBush{
 
 				if (arraylist.size() >0){
 					ChunkPosition chunkposition = (ChunkPosition) arraylist.get(rand.nextInt(arraylist.size()));
-					world.setBlock(chunkposition.chunkPosX, chunkposition.chunkPosY, chunkposition.chunkPosZ, BlockSets.blockTransformer.get(new BlockInfo(Blocks.stone, 0, Modifier.stoneMagmaCrust)), 0, 2);
+					world.setBlock(chunkposition.chunkPosX, chunkposition.chunkPosY-1, chunkposition.chunkPosZ, BlockSets.blockTransformer.get(new BlockInfo(Blocks.stone, 0, Modifier.stoneMagmaCrust)), 0, 2);
 				//	maybe set a detector for UBC magma crust setting here
 					world.setBlock(chunkposition.chunkPosX, chunkposition.chunkPosY, chunkposition.chunkPosZ, this, 0, 2);
 				}

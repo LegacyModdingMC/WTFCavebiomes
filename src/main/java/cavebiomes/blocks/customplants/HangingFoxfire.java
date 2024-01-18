@@ -53,13 +53,13 @@ public class HangingFoxfire extends Foxfire implements ILightDarkBlock{
 		}
 
 		//Try to spread
-		if (rand.nextInt(25) == 0)
+		if (WTFCaveBiomesConfig.foxFireSpread && rand.nextInt(25) == 0)
 		{
-			System.out.println("try to grow");
+//			System.out.println("try to grow");
 			ArrayList<ChunkPosition> arraylist = new ArrayList<ChunkPosition>();
-			for (int xloop = -4; xloop < 5; xloop++){
-				for (int zloop = -4; zloop < 5; zloop++){
-					for (int yloop = -3; yloop < 3 || world.isAirBlock(xloop, y+yloop, z); yloop++){
+			for (int xloop = -4; xloop <= 4; xloop++){
+				for (int zloop = -4; zloop <= 4; zloop++){
+					for (int yloop = -3; yloop <= 2; yloop++){// || world.isAirBlock(xloop, y+yloop, z); yloop++){
 						if (canBlockStay(world, x+xloop, y+yloop-1, z+zloop)){
 							arraylist.add(new ChunkPosition(x+xloop, y+yloop-1, z+zloop));
 						}
@@ -85,7 +85,7 @@ public class HangingFoxfire extends Foxfire implements ILightDarkBlock{
 
 		if (WTFCaveBiomesConfig.foxfireAnimations && random.nextInt(10) == 0 && world.getBlockMetadata(x,y,z) > 7 && shouldBeLit(world, x, y, z))
 		{
-			world.spawnParticle("happyVillager", x + random.nextFloat(), y - 0.5F, z + random.nextFloat(), 0.0D, 0.0D, 0.0D);
+			world.spawnParticle("happyVillager", x + random.nextFloat(), y + 0.5F, z + random.nextFloat(), 0.0D, 0.0D, 0.0D);
 		}
 	}
 
