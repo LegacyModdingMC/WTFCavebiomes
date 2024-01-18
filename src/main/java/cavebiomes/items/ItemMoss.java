@@ -32,19 +32,18 @@ public class ItemMoss extends Item{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister iconRegister)
-	{
-		this.itemIcon = iconRegister.registerIcon(CaveBiomes.modid + ":" + this.getUnlocalizedName().substring(5));
+	public void registerIcons(IIconRegister iconRegister) {
+		itemIcon = iconRegister.registerIcon(CaveBiomes.modid + ":" + this.getUnlocalizedName().substring(5));
 	}
 
 	@Override
-	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
-    {
+	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
 		Block blockToSet = BlockSets.blockTransformer.get(new BlockInfo(world.getBlock(x,y,z), world.getBlockMetadata(x,y,z), BlockSets.Modifier.MossyStone));
 		if (blockToSet != null){
 			world.setBlock(x, y, z, blockToSet, world.getBlockMetadata(x,y,z), 3);
-			//ItemStack heldItem = player.getHeldItem();
-			player.inventory.consumeInventoryItem(moss);
+			if(!player.capabilities.isCreativeMode) {
+				player.inventory.consumeInventoryItem(moss);
+			}
 			return true;
 		}
 		blockToSet = BlockSets.blockTransformer.get(new BlockInfo(world.getBlock(x,y,z), world.getBlockMetadata(x,y,z), BlockSets.Modifier.mossy_cobblestone));
