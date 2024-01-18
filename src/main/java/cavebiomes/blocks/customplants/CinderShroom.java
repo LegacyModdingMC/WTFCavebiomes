@@ -93,6 +93,9 @@ public class CinderShroom extends BlockBush{
 				for (int xloop = -4; xloop <= 4; xloop++){
 					for (int zloop = -4; zloop <= 4; zloop++){
 						for (int yloop = 3; yloop >= -2; yloop--){// || world.isAirBlock(xloop, y+yloop, z); yloop--){
+							
+							if (y+yloop > 255 || y+yloop <= 0 ) {continue;}
+
 							if (world.getBlock(x+xloop, y+yloop-1, z+zloop) == Blocks.lava && world.isAirBlock(x+xloop, y+yloop, z+zloop)){
 								arraylist.add(new ChunkPosition(x+xloop, y+yloop, z+zloop));
 							}

@@ -111,6 +111,9 @@ public class Foxfire extends BlockBush implements ILightDarkBlock
     			for (int xloop = -4; xloop <= 4; xloop++){
     				for (int zloop = -4; zloop <= 4; zloop++){
     					for (int yloop = 3; yloop >= -2; yloop--){// || world.isAirBlock(xloop, y+yloop, z); yloop--){
+
+    						if (y+yloop > 255 || y+yloop <= 0 ) {continue;}
+
     						if (canBlockStay(world, x+xloop, y+yloop+1, z+zloop)){
     							arraylist.add(new ChunkPosition(x+xloop, y+yloop+1, z+zloop));
     						}
