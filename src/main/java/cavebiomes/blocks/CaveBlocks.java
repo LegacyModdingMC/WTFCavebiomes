@@ -5,8 +5,7 @@ import cavebiomes.blocks.customplants.Foxfire;
 import cavebiomes.blocks.customplants.LavaVine;
 import cavebiomes.blocks.customplants.CinderShroom;
 import cavebiomes.blocks.customplants.PlantsCavePlants;
-import cavebiomes.blocks.replacers.FrozenFenceReplacer;
-import cavebiomes.blocks.replacers.FrozenTorchReplacer;
+import cavebiomes.blocks.replacers.FrozenReplacer;
 import cavebiomes.items.ItemMoss;
 import cavebiomes.utilities.StoneRegister;
 import net.minecraft.block.Block;
@@ -15,17 +14,14 @@ import texturegeneratorlib.TextureGeneratorLib;
 import wtfcore.InterModBlocks;
 import wtfcore.WTFCore;
 import wtfcore.api.BlockSets;
-import wtfcore.items.ItemMetadataSubblock;
 import wtfcore.utilities.UBCblocks;
 import wtftweaks.WTFBlocks;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class CaveBlocks
-{
-	public static HashMap<Block, BlockSpeleothems[]> speleothemMap = new HashMap<Block, BlockSpeleothems[]>();
-	public static HashMap<Block, FrozenBlock[]> frozenspeleothemMap = new HashMap<Block, FrozenBlock[]>();
-	public static String[] formationType ={"StalactiteSmall", "StalactiteLargeBase", "StalactiteLargeTip", "LargeColumn", "StalagmiteSmall", "StalagmiteLargeBase", "StalagmiteLargeTip"};
+public class CaveBlocks {
+	public static HashMap<Block, BlockSpeleothems[]> speleothemMap = new HashMap<>();
+	public static HashMap<Block, FrozenBlock[]> frozenspeleothemMap = new HashMap<>();
 
 	public static String[] vanillaDirt = {"dirt", "coarse_dirt", "dirt_podzol_top"};
 	public static String[] vanillaRedstone = {"redstone_block"};
@@ -34,7 +30,6 @@ public class CaveBlocks
 	public static Block GlowstoneStalactite;
 	public static Block Roots;
 	public static Block CaveOrchid;
-	public static Block PlantMoss;
 	public static Block frozenRoots;
 	public static Block MossyDirt;
 	public static Block lavaVine;
@@ -44,8 +39,7 @@ public class CaveBlocks
 	public static Block frozenRail;
 
 	//Method to call registry of Blocks
-	public static void BlockRegister()
-	{
+	public static void BlockRegister() {
 		BlockIcicle.register();	
 		UBCSand.register();
 		CinderShroom.register();
@@ -73,19 +67,19 @@ public class CaveBlocks
 		String[] frozenfencenames= {"Fence"};
 		frozenFence = new FrozenBlock(Blocks.ice, Blocks.fence, frozenfencenames, TextureGeneratorLib.overlayDomain).setBlockName("frozen_fence");
 		GameRegistry.registerBlock(frozenFence, "frozen_fence");
-		new FrozenFenceReplacer(Blocks.fence);
+		new FrozenReplacer(Blocks.fence, frozenFence);
 		
 		if (Loader.isModLoaded(WTFCore.WTFTweaks)){
 			String[] frozentorchname= {"torch"};
 			frozenTorch = new FrozenBlock(Blocks.ice, WTFBlocks.finitetorch_unlit, frozentorchname, TextureGeneratorLib.overlayDomain).setBlockName("frozen_torch");
 			GameRegistry.registerBlock(frozenTorch, "frozen_torch");
-			new FrozenTorchReplacer(Blocks.torch);
+			new FrozenReplacer(Blocks.torch, frozenTorch);
 		}
 		
 		String[] frozenrailnames= {"Rail"};
 		frozenRail = new FrozenBlock(IcePatch, Blocks.rail, frozenrailnames, TextureGeneratorLib.overlayDomain).setBlockName("frozen_rail");
 		GameRegistry.registerBlock(frozenRail, "frozen_rail");
-		new FrozenFenceReplacer(Blocks.rail);
+		new FrozenReplacer(Blocks.rail, frozenRail);
 		
 		RedstoneSpeleothem.registerSpeleothemSet(Blocks.redstone_ore, "redstone_block", vanillaRedstone, "minecraft");
 		RedstoneSpeleothem.registerSpeleothemSet(Blocks.lit_redstone_ore, "redstone_block", vanillaRedstone, "minecraft");
@@ -105,7 +99,6 @@ public class CaveBlocks
 		sand.register();
 		
 		if (Loader.isModLoaded("UndergroundBiomes")){
-			
 			StoneRegister igneous = getStoneRegister(UBCblocks.IgneousStone, UBCblocks.IgneousCobblestone, "igneous", UBCblocks.IgneousStoneList, UBCblocks.IgneousCobblestoneList, "undergroundbiomes");
 			igneous.register();
 			
@@ -118,18 +111,16 @@ public class CaveBlocks
 			sedimentary.drippingLava=false;
 			sedimentary.register();
 		}
-		
-		
 	}
 	
 	public static StoneRegister getStoneRegister(Block stone, Block cobblestone, String unlocalisedName, String[] stoneNames, String[] cobbleNames, String domain){
 		return new StoneRegister(stone, cobblestone, unlocalisedName, stoneNames, cobbleNames, domain);
 	}
+
 	public static StoneRegister getStoneRegister(Block stone, Block cobblestone, String unlocalisedName, String stoneNames, String cobbleNames, String domain){
 		return new StoneRegister(stone, cobblestone, unlocalisedName, stoneNames, cobbleNames, domain);
 	}
-	
-	
+
 	public static Block[] getSpeleothemSet(Block block, Block modifier){
 		if (modifier == Blocks.redstone_ore) {
 			WTFCore.log.info("Returning redstone speleothems");
@@ -137,8 +128,7 @@ public class CaveBlocks
 		}
 		if (modifier == null){
 			return speleothemMap.get(block);
-		}
-		else {//if (modifier == Blocks.ice){
+		} else {//if (modifier == Blocks.ice){
 			return frozenspeleothemMap.get(block);
 		}
 	}

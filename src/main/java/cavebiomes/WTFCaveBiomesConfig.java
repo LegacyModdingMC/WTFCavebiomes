@@ -71,8 +71,10 @@ public class WTFCaveBiomesConfig{
 		String section5 = "Entity Settings";
 		customMobs = config.get(section5, "Enable replacement of zombies and skeletons with biome specific versions", false).getBoolean();
 
-		config.save();
-		
+		if(config.hasChanged()) {
+			config.save();
+		}
+
 		ConfigAPI.EnableMobSpawners = EnableMobSpawners;
 		ConfigAPI.ceilingAddonChance = ceilingAddonChance;
 		ConfigAPI.floorAddonChance = floorAddonChance;
