@@ -56,11 +56,9 @@ public class BlockSpeleothems extends ChildBlockCarryMetadata
 		FrozenBlock[] frozenblockArray = new FrozenBlock[8];
 
 		for (int formationTypeLoop = 0; formationTypeLoop < formationList.length; formationTypeLoop++){
-
 			String name = unlocalisedName+"_"+formationList[formationTypeLoop];
 			blockToRegister = new BlockSpeleothems(block, formationTypeLoop, stoneNames, domain).setBlockName(name);
 			GameRegistry.registerBlock(blockToRegister, ItemMetadataSubblock.class, name);
-
 
 			String[] frozenstoneNames = new String[stoneNames.length];
 			for (int loop = 0; loop < stoneNames.length; loop++){
@@ -80,7 +78,6 @@ public class BlockSpeleothems extends ChildBlockCarryMetadata
 		}
 		CaveBlocks.speleothemMap.put(block, blockArray);
 		CaveBlocks.frozenspeleothemMap.put(block, frozenblockArray);
-
 	}
 
 	public void loadTextureStrings(String[] stoneNames, String domain){
@@ -92,10 +89,9 @@ public class BlockSpeleothems extends ChildBlockCarryMetadata
 			tempParentLocations[loop] = domain+":"+stoneNames[loop];
 		}
 
-		this.textureNames = tempTextureNames;
-		this.parentLocations = tempParentLocations;
-		this.maskType = BlockSpeleothems.formationList;
-
+		textureNames = tempTextureNames;
+		parentLocations = tempParentLocations;
+		maskType = BlockSpeleothems.formationList;
 	}
 
     @Override
@@ -106,28 +102,32 @@ public class BlockSpeleothems extends ChildBlockCarryMetadata
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item item, CreativeTabs tab, List list)
-	{
-		for (int i = 0; i < textureNames.length; ++i)
-		{
+	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
+		for (int i = 0; i < textureNames.length; ++i) {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
 
 	@Override
-	public boolean isOpaqueCube(){return false;}
-	@Override
-	public boolean renderAsNormalBlock(){return false;}
+	public boolean isOpaqueCube() {
+		return false;
+	}
 
 	@Override
-	public int getRenderType(){return 1;}
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
+
+	@Override
+	public int getRenderType() {
+		return 1;
+	}
 
 		@Override
-	public void registerBlockIcons(IIconRegister iconRegister){
-
+	public void registerBlockIcons(IIconRegister iconRegister) {
 		textures = new IIcon[16];
 
-		for (int loop = 0; loop < textureNames.length; loop++){
+		for(int loop = 0; loop < textureNames.length; loop++) {
 			textures[loop] = iconRegister.registerIcon(CaveBiomes.modid+":"+textureNames[loop]);
 			TextureGeneratorLib.registerBlockOverlay(this, textureNames[loop], parentLocations[loop], maskType[speleothemType], CaveBiomes.alphaMaskDomain, true);
 		}
@@ -135,33 +135,28 @@ public class BlockSpeleothems extends ChildBlockCarryMetadata
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta)
-	{
+	public IIcon getIcon(int side, int meta) {
 		return textures[meta];
 	}
 
-
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_)	    {
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)	    {
 		return null;
 	}
 
-
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(IBlockAccess p_149673_1_, int p_149673_2_, int p_149673_3_, int p_149673_4_, int p_149673_5_)
-	{
-		return this.getIcon(p_149673_5_, p_149673_1_.getBlockMetadata(p_149673_2_, p_149673_3_, p_149673_4_));
+	public IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side) {
+		return this.getIcon(side, blockAccess.getBlockMetadata(x, y, z));
 	}
 
 	public int getSpeleothemType(){
-		return this.speleothemType;
+		return speleothemType;
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_) {
+	public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
 		switch (getSpeleothemType()){
-
 		case stalactitesmall :
 			setBlockBounds(0.2F, 0.2F, 0.2F, 0.8F, 1F, 0.8F);
 			break;
@@ -183,14 +178,7 @@ public class BlockSpeleothems extends ChildBlockCarryMetadata
 		case stalagmitelargetip :
 			setBlockBounds(0.3F, 0F, 0.3F, 0.7F, 0.7F, 0.7F);
 			break;
-
 		}
-
-
 	}
-
-
-
-
 
 }

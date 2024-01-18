@@ -11,61 +11,52 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Facing;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import wtfcore.api.BlockSets;
 
-public class IcePatch extends BlockPackedIce{
-	public IcePatch()
-	{
+public class IcePatch extends BlockPackedIce {
+	public IcePatch() {
 		super();
-		this.slipperiness = 0.98F;
-		this.setCreativeTab(CaveBiomes.tabCaveDecorations);
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
-		this.setStepSound(soundTypeGlass);
-		this.setTickRandomly(false);
-		this.setLightOpacity(0);
+		slipperiness = 0.98F;
+		setCreativeTab(CaveBiomes.tabCaveDecorations);
+		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
+		setStepSound(soundTypeGlass);
+		setTickRandomly(false);
+		setLightOpacity(0);
 
 	}
-	
+
     public boolean renderAsNormalBlock()
     {
         return false;
     }
-    
+
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
-	{
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
 		world.scheduleBlockUpdate(x, y, z, this, 20);
 	}
 
 	@Override
-	public void updateTick(World world, int x, int y, int z, Random random)
-	{
-		this.checkAndDropBlock(world, x, y, z);
+	public void updateTick(World world, int x, int y, int z, Random random) {
+		checkAndDropBlock(world, x, y, z);
 	}
 
-	protected void checkAndDropBlock(World world, int x, int y, int z)
-	{
-		if (!this.canBlockStay(world, x, y, z))
-		{
+	protected void checkAndDropBlock(World world, int x, int y, int z) {
+		if(!canBlockStay(world, x, y, z)) {
 			world.setBlockToAir(x, y, z);
 		}
 	}
 
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
-    {
-        Block block = p_149646_1_.getBlock(p_149646_2_, p_149646_3_, p_149646_4_);
-        return block == this ? false : super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_);
+    public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side) {
+        Block block = blockAccess.getBlock(x, y, z);
+        return block == this ? false : super.shouldSideBeRendered(blockAccess, x, y, z, side);
     }
 
-	
 	@Override
-	public boolean canBlockStay(World world, int x, int y, int z)
-	{
+	public boolean canBlockStay(World world, int x, int y, int z) {
 		if (!world.getBlock(x, y-1, z).renderAsNormalBlock()){return false;}
 		if (BlockSets.meltBlocks.contains(world.getBlock(x+1, y, z))){return false;}
 		if (BlockSets.meltBlocks.contains(world.getBlock(x-1, y, z))){return false;}
@@ -104,44 +95,32 @@ public class IcePatch extends BlockPackedIce{
 		return null;
 	}
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_)
-	{
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 		byte b0 = 0;
 		float f = 0.0625F;
-		return AxisAlignedBB.getBoundingBox(p_149668_2_ + this.minX, p_149668_3_ + this.minY, p_149668_4_ + this.minZ, p_149668_2_ + this.maxX, p_149668_3_ + b0 * f, p_149668_4_ + this.maxZ);
+		return AxisAlignedBB.getBoundingBox(x + minX, y + minY, z + minZ, x + maxX, y + b0 * f, z + maxZ);
 	}
-	
-	
 
 	/**
 	 * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
 	 * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
 	 */
 	@Override
-	public boolean isOpaqueCube()
-	{
+	public boolean isOpaqueCube() {
 		return false;
 	}
 
 	/**
-	 * Sets the block's bounds for rendering it as an item
-	 */
-		/**
-	 * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y, z
+	 * Checks to see if it is valid to put this block at the specified coordinates. Args: world, x, y, z
 	 */
 	@Override
-	public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_)
-	{
-		return this.canBlockStay(p_149742_1_, p_149742_2_, p_149742_3_, p_149742_4_);
+	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
+		return this.canBlockStay(world, x, y, z);
 	}
 
 	@Override
-	public boolean isReplaceable(IBlockAccess world, int x, int y, int z)
-	{
+	public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
 		return true;
 	}
-
-
-
 
 }
